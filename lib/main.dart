@@ -28,6 +28,7 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {},
+        elevation: 0.0,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
