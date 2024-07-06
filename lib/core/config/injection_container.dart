@@ -1,0 +1,52 @@
+import 'package:dio/dio.dart';
+import 'package:get_it/get_it.dart';
+import 'package:we_movies/data/repository_impl/repository_impl.dart';
+import 'package:we_movies/data/source/source.dart';
+import 'package:we_movies/domain/repository/repository.dart';
+import 'package:we_movies/domain/usecase/fetch_now_playing_movies_usecase.dart';
+import 'package:we_movies/domain/usecase/fetch_top_rated_movies_usecase.dart';
+
+final locator = GetIt.instance;
+
+void injectionContainer() {
+  _blocRegister();
+  _dataSourceRegister();
+  _repositoryRegister();
+  _usecaseRegister();
+}
+
+void _dataSourceRegister() {
+  locator.registerLazySingleton<MoviesDataSource>(
+    () => MoviesDataSourceImpl(
+      Dio(),
+    ),
+  );
+
+  locator.registerLazySingleton<LanguagesDataSource>(
+    () => LanguagesDataSourceImpl(),
+  );
+}
+
+void _repositoryRegister() {
+  locator.registerLazySingleton<MoviesRepository>(
+    () => MoviesRepositoryImpl(
+      locator.get<MoviesDataSource>(),
+      locator.get<LanguagesDataSource>(),
+    ),
+  );
+}
+
+void _usecaseRegister() {
+  locator.registerLazySingleton<FetchNowPlayingMoviesUsecase>(
+    () => FetchNowPlayingMoviesUsecaseImpl(
+      locator.get<MoviesRepository>(),
+    ),
+  );
+  locator.registerLazySingleton<FetchTopRatedMoviesUsecase>(
+    () => FetchTopRatedMoviesUsecaseImpl(
+      locator.get<MoviesRepository>(),
+    ),
+  );
+}
+
+void _blocRegister() {}
