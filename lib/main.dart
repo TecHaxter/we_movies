@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:we_movies/core/config/config.dart';
 import 'package:we_movies/core/constants/constants.dart';
 import 'package:we_movies/presentation/views/views.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await serviceBootup();
   runApp(const MyApp());
 }
 
