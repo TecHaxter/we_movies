@@ -8,6 +8,8 @@ import 'package:we_movies/data/source/source.dart';
 import 'package:we_movies/domain/repository/repository.dart';
 import 'package:we_movies/domain/usecase/fetch_now_playing_movies_usecase.dart';
 import 'package:we_movies/domain/usecase/fetch_top_rated_movies_usecase.dart';
+import 'package:we_movies/domain/usecase/usecase.dart';
+import 'package:we_movies/presentation/bloc/bloc.dart';
 import 'package:we_movies/presentation/views/home/bloc/bloc.dart';
 
 final locator = GetIt.instance;
@@ -46,6 +48,11 @@ void _repositoryRegister() {
       locator.get<LanguagesDataSource>(),
     ),
   );
+  locator.registerLazySingleton<LocationRepository>(
+    () => LocationRepositoryImpl(
+      locator.get<LocationDataSource>(),
+    ),
+  );
 }
 
 void _usecaseRegister() {
@@ -57,6 +64,11 @@ void _usecaseRegister() {
   locator.registerLazySingleton<FetchTopRatedMoviesUsecase>(
     () => FetchTopRatedMoviesUsecaseImpl(
       locator.get<MoviesRepository>(),
+    ),
+  );
+  locator.registerLazySingleton<FetchLocationUsecase>(
+    () => FetchLocationUsecaseImpl(
+      locator.get<LocationRepository>(),
     ),
   );
 }
@@ -74,6 +86,11 @@ void _blocRegister() {
   );
   locator.registerFactory<SearchMoviesBloc>(
     () => SearchMoviesBloc(),
+  );
+  locator.registerFactory<AddressBloc>(
+    () => AddressBloc(
+      locator.get<FetchLocationUsecase>(),
+    ),
   );
 }
 

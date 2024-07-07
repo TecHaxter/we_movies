@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_movies/core/config/config.dart';
 import 'package:we_movies/core/constants/constants.dart';
+import 'package:we_movies/presentation/bloc/bloc.dart';
 import 'package:we_movies/presentation/views/home/bloc/bloc.dart';
 import 'package:we_movies/presentation/views/views.dart';
 
@@ -26,6 +27,9 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<AddressBloc>(
+            create: (_) => locator.get<AddressBloc>(),
+          ),
           BlocProvider<NowPlayingMoviesBloc>(
             create: (_) => locator.get<NowPlayingMoviesBloc>(),
           ),

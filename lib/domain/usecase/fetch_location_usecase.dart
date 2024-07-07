@@ -10,7 +10,16 @@ class FetchLocationUsecaseImpl implements FetchLocationUsecase {
   final LocationRepository locationRepository;
   const FetchLocationUsecaseImpl(this.locationRepository);
   @override
-  Future<Responser<LocationEntity>> call() {
-    return locationRepository.getAddress();
+  Future<Responser<LocationEntity>> call() async {
+    try {
+      final permissionRes = await locationRepository.getPermissions();
+      final permission = permissionRes.fold((l) => null, (r) => r);
+      if (permissionRes.isLeft() || (permission != true)) {
+        throw "Location permission error";
+      }
+      return locationRepository.getAddress();
+    } catch (e) {
+      return failed(e.toString());
+    }
   }
 }
