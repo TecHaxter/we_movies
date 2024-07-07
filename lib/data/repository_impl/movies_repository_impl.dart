@@ -1,4 +1,4 @@
-import 'package:we_movies/core/helpers/http/error_handling/responser.dart';
+import 'package:we_movies/core/helpers/helpers.dart';
 import 'package:we_movies/data/source/source.dart';
 import 'package:we_movies/domain/entity/movie_entity.dart';
 import 'package:we_movies/domain/repository/repository.dart';
@@ -22,17 +22,19 @@ class MoviesRepositoryImpl implements MoviesRepository {
       }
       final movies = (json?['results'] as List).map<MovieEntity>(
         (e) {
+          final map = Map<String, dynamic>.from(e as Map);
           try {
-            final map = Map<String, dynamic>.from(e as Map);
             return MovieEntity(
               id: map['id'] as int?,
               title: map['title'] as String?,
               overview: map['overview'] as String?,
-              poster: map['poster_path'] as String?,
-              popularity: map['popularity'] as int?,
+              poster: ((map['poster_path'] as String?)?.isNotEmpty ?? false)
+                  ? 'https://image.tmdb.org/t/p/original/${map['poster_path'] as String?}'
+                  : null,
+              popularity: (map['popularity'] as double?)?.toInt(),
               voteCount: map['vote_count'] as int?,
               language: languagesDataSource.data.firstWhere(
-                (e) => e['iso_639_1'] == map['language'] as String?,
+                (e) => e['iso_639_1'] == map['original_language'],
                 orElse: () => <String, String>{},
               )['english_name'],
             );
@@ -58,17 +60,19 @@ class MoviesRepositoryImpl implements MoviesRepository {
       }
       final movies = (json?['results'] as List).map<MovieEntity>(
         (e) {
+          final map = Map<String, dynamic>.from(e as Map);
           try {
-            final map = Map<String, dynamic>.from(e as Map);
             return MovieEntity(
               id: map['id'] as int?,
               title: map['title'] as String?,
               overview: map['overview'] as String?,
-              poster: map['poster_path'] as String?,
-              popularity: map['popularity'] as int?,
+              poster: ((map['poster_path'] as String?)?.isNotEmpty ?? false)
+                  ? 'https://image.tmdb.org/t/p/original/${map['poster_path'] as String?}'
+                  : null,
+              popularity: (map['popularity'] as double?)?.toInt(),
               voteCount: map['vote_count'] as int?,
               language: languagesDataSource.data.firstWhere(
-                (e) => e['iso_639_1'] == map['language'] as String?,
+                (e) => e['iso_639_1'] == map['original_language'],
                 orElse: () => <String, String>{},
               )['english_name'],
             );

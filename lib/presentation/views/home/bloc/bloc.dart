@@ -1,0 +1,9 @@
+export 'now_playing_movies_bloc/now_playing_movies_bloc.dart';
+export 'now_playing_movies_bloc/now_playing_movies_bloc_event.dart';
+export 'now_playing_movies_bloc/now_playing_movies_bloc_state.dart';
+export 'search_movies_bloc/search_movies_bloc.dart';
+export 'search_movies_bloc/search_movies_bloc_event.dart';
+export 'search_movies_bloc/search_movies_bloc_state.dart';
+export 'top_rated_movies_bloc/top_rated_movies_bloc.dart';
+export 'top_rated_movies_bloc/top_rated_movies_bloc_event.dart';
+export 'top_rated_movies_bloc/top_rated_movies_bloc_state.dart';

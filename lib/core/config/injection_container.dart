@@ -1,14 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:we_movies/core/helpers/helpers.dart';
 import 'package:we_movies/data/repository_impl/repository_impl.dart';
 import 'package:we_movies/data/source/source.dart';
 import 'package:we_movies/domain/repository/repository.dart';
 import 'package:we_movies/domain/usecase/fetch_now_playing_movies_usecase.dart';
 import 'package:we_movies/domain/usecase/fetch_top_rated_movies_usecase.dart';
+import 'package:we_movies/presentation/views/home/bloc/bloc.dart';
 
 final locator = GetIt.instance;
 
 void injectionContainer() {
+  _coreRegister();
   _blocRegister();
   _dataSourceRegister();
   _repositoryRegister();
@@ -18,7 +21,7 @@ void injectionContainer() {
 void _dataSourceRegister() {
   locator.registerLazySingleton<MoviesDataSource>(
     () => MoviesDataSourceImpl(
-      Dio(),
+      locator.get<Dio>(),
     ),
   );
 
@@ -49,4 +52,28 @@ void _usecaseRegister() {
   );
 }
 
-void _blocRegister() {}
+void _blocRegister() {
+  locator.registerFactory<NowPlayingMoviesBloc>(
+    () => NowPlayingMoviesBloc(
+      locator.get<FetchNowPlayingMoviesUsecase>(),
+    ),
+  );
+  locator.registerFactory<TopRatedMoviesBloc>(
+    () => TopRatedMoviesBloc(
+      locator.get<FetchTopRatedMoviesUsecase>(),
+    ),
+  );
+  locator.registerFactory<SearchMoviesBloc>(
+    () => SearchMoviesBloc(),
+  );
+}
+
+void _coreRegister() {
+  locator.registerFactory<Dio>(
+    () => Dio(
+      BaseOptions(
+        baseUrl: 'https://api.themoviedb.org/3/',
+      ),
+    )..interceptors.add(apiKeyInterceptor),
+  );
+}

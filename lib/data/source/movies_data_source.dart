@@ -14,7 +14,7 @@ class MoviesDataSourceImpl implements MoviesDataSource {
       {int page = 1}) async {
     try {
       final res = await dio.get(
-        'movie/now_playing',
+        'movie/top_rated',
         queryParameters: {
           'page': page,
         },

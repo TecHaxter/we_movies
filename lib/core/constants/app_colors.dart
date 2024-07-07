@@ -30,6 +30,30 @@ class AppGradients {
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   );
+  static LinearGradient shimmer = const LinearGradient(
+    colors: [
+      AppColors.heliotropGrey,
+      AppColors.pureWhite,
+    ],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  );
+  static LinearGradient shimmerTextDark = LinearGradient(
+    colors: [
+      AppColors.nickle.withOpacity(0.5),
+      AppColors.pureWhite.withOpacity(0.5),
+    ],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  );
+  static LinearGradient shimmerTextLight = LinearGradient(
+    colors: [
+      AppColors.nickle.withOpacity(0.2),
+      AppColors.pureWhite.withOpacity(0.5),
+    ],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  );
   static LinearGradient darkMuted = LinearGradient(
     colors: [
       AppColors.nickle.withOpacity(0.1),
