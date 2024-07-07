@@ -73,10 +73,10 @@ flutter:
         - asset: assets/fonts/Poppins/Poppins-Bold.ttf
           weight: 700
 
-  flutter_launcher_icons:
-    android: true
-    ios: true
-    image_path: "assets/logos/we_work_black_logo.png"
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/logos/we_work_black_logo.png"
 
 scripts: #shortcut build scripts
   build: dart run build_runner build --delete-conflicting-outputs
