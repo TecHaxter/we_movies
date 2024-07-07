@@ -11,7 +11,7 @@ import 'package:we_movies/presentation/views/views.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await serviceBootup();
-  injectionContainer();
+  await injectionContainer();
   runApp(const MyApp());
 }
 

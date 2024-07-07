@@ -8,4 +8,14 @@ abstract class MoviesRepository {
   Future<Responser<List<MovieEntity>?>> fetchTopRatedMovies({
     int page = 1,
   });
+
+  Future<Responser<bool>> putNowPlayingMoviesInCache({
+    required List<MovieEntity> movies,
+  });
+  Future<Responser<List<MovieEntity>?>> getNowPlayingMoviesFromCache();
+
+  Future<Responser<bool>> putTopRatedMoviesInCache({
+    required List<MovieEntity> movies,
+  });
+  Future<Responser<List<MovieEntity>?>> getTopRatedMoviesFromCache();
 }

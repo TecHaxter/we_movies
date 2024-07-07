@@ -1,28 +1,30 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:we_movies/core/helpers/helpers.dart';
 import 'package:we_movies/data/repository_impl/repository_impl.dart';
 import 'package:we_movies/data/source/source.dart';
 import 'package:we_movies/domain/repository/repository.dart';
-import 'package:we_movies/domain/usecase/fetch_now_playing_movies_usecase.dart';
-import 'package:we_movies/domain/usecase/fetch_top_rated_movies_usecase.dart';
 import 'package:we_movies/domain/usecase/usecase.dart';
 import 'package:we_movies/presentation/bloc/bloc.dart';
 import 'package:we_movies/presentation/views/home/bloc/bloc.dart';
 
 final locator = GetIt.instance;
 
-void injectionContainer() {
+Future<void> injectionContainer() async {
   _coreRegister();
   _blocRegister();
-  _dataSourceRegister();
+  await _dataSourceRegister();
   _repositoryRegister();
   _usecaseRegister();
 }
 
-void _dataSourceRegister() {
+Future<void> _dataSourceRegister() async {
   locator.registerLazySingleton<MoviesDataSource>(
     () => MoviesDataSourceImpl(
       locator.get<Dio>(),
@@ -39,13 +41,24 @@ void _dataSourceRegister() {
       locator.get<GeolocatorPlatform>(),
     ),
   );
+  locator.registerLazySingletonAsync<CachingDataSource>(
+    () async => CachingDataSourceImpl(
+      await getApplicationDocumentsDirectory(),
+      Hive,
+    )..init(),
+  );
+
+  // Wait for CachingDataSource to be ready
+  await locator.isReady<CachingDataSource>();
 }
 
-void _repositoryRegister() {
-  locator.registerLazySingleton<MoviesRepository>(
-    () => MoviesRepositoryImpl(
+Future<void> _repositoryRegister() async {
+  locator.registerLazySingletonAsync<MoviesRepository>(
+    // Await the async registration
+    () async => MoviesRepositoryImpl(
       locator.get<MoviesDataSource>(),
       locator.get<LanguagesDataSource>(),
+      locator.get<CachingDataSource>(),
     ),
   );
   locator.registerLazySingleton<LocationRepository>(
@@ -53,6 +66,7 @@ void _repositoryRegister() {
       locator.get<LocationDataSource>(),
     ),
   );
+  await locator.isReady<MoviesRepository>();
 }
 
 void _usecaseRegister() {

@@ -12,7 +12,20 @@ class FetchTopRatedMoviesUsecaseImpl implements FetchTopRatedMoviesUsecase {
   final MoviesRepository moviesReposiotry;
   const FetchTopRatedMoviesUsecaseImpl(this.moviesReposiotry);
   @override
-  Future<Responser<List<MovieEntity>?>> call({int page = 1}) {
-    return moviesReposiotry.fetchTopRatedMovies(page: page);
+  Future<Responser<List<MovieEntity>?>> call({int page = 1}) async {
+    try {
+      final moviesRes = await moviesReposiotry.fetchTopRatedMovies(page: page);
+      final movies = moviesRes.fold((l) => null, (r) => r);
+      if (moviesRes.isLeft() || movies == null) {
+        throw 'Could not fetch top rated movies';
+      }
+      moviesReposiotry.putTopRatedMoviesInCache(movies: movies);
+      return success(movies);
+    } catch (e) {
+      if (page == 1) {
+        return moviesReposiotry.getTopRatedMoviesFromCache();
+      }
+      return failed(e.toString());
+    }
   }
 }

@@ -6,9 +6,11 @@ import 'package:we_movies/domain/repository/repository.dart';
 class MoviesRepositoryImpl implements MoviesRepository {
   final MoviesDataSource moviesDataSource;
   final LanguagesDataSource languagesDataSource;
+  final CachingDataSource cachingDataSource;
   const MoviesRepositoryImpl(
     this.moviesDataSource,
     this.languagesDataSource,
+    this.cachingDataSource,
   );
 
   @override
@@ -82,6 +84,65 @@ class MoviesRepositoryImpl implements MoviesRepository {
         },
       ).toList();
       return success(movies);
+    } catch (e) {
+      return failed(e.toString());
+    }
+  }
+
+  @override
+  Future<Responser<List<MovieEntity>?>> getNowPlayingMoviesFromCache() async {
+    try {
+      final data =
+          (await cachingDataSource.getData('now_playing') as List?)?.map(
+        (e) => Map<String, dynamic>.from(
+          e as Map,
+        ),
+      );
+      final movies = data?.map((e) => MovieEntity.fromJson(e)).toList();
+      return success(movies);
+    } catch (e) {
+      return failed(e.toString());
+    }
+  }
+
+  @override
+  Future<Responser<List<MovieEntity>?>> getTopRatedMoviesFromCache() async {
+    try {
+      final data = (await cachingDataSource.getData('top_rated') as List?)?.map(
+        (e) => Map<String, dynamic>.from(
+          e as Map,
+        ),
+      );
+      final movies = data?.map((e) => MovieEntity.fromJson(e)).toList();
+      return success(movies);
+    } catch (e) {
+      return failed(e.toString());
+    }
+  }
+
+  @override
+  Future<Responser<bool>> putNowPlayingMoviesInCache(
+      {required List<MovieEntity> movies}) async {
+    try {
+      await cachingDataSource.insertData(
+        'now_playing',
+        movies.map((e) => e.toJson()).toList(),
+      );
+      return success(true);
+    } catch (e) {
+      return failed(e.toString());
+    }
+  }
+
+  @override
+  Future<Responser<bool>> putTopRatedMoviesInCache(
+      {required List<MovieEntity> movies}) async {
+    try {
+      await cachingDataSource.insertData(
+        'top_rated',
+        movies.map((e) => e.toJson()).toList(),
+      );
+      return success(true);
     } catch (e) {
       return failed(e.toString());
     }

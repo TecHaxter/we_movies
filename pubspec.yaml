@@ -21,10 +21,12 @@ dependencies:
   flutter_bloc: ^8.1.6 #state-manamegment
   flutter_dotenv: ^5.1.0 #env config
   rxdart: ^0.27.7 #event debouncing
-  shimmer: ^3.0.0
-  geolocator: ^12.0.0
-  geocoding: ^3.0.0
-  lottie: ^3.1.2
+  shimmer: ^3.0.0 #loading indicator
+  geolocator: ^12.0.0 #get coordinates
+  geocoding: ^3.0.0 #reverse geocode
+  lottie: ^3.1.2 #animations
+  hive: ^2.2.3 #caching
+  path_provider: ^2.1.3 #dev utility
 
 dev_dependencies:
   flutter_test:
