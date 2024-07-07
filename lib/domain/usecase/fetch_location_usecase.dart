@@ -1,0 +1,16 @@
+import 'package:we_movies/core/helpers/helpers.dart';
+import 'package:we_movies/domain/entity/entity.dart';
+import 'package:we_movies/domain/repository/repository.dart';
+
+sealed class FetchLocationUsecase {
+  Future<Responser<LocationEntity>> call();
+}
+
+class FetchLocationUsecaseImpl implements FetchLocationUsecase {
+  final LocationRepository locationRepository;
+  const FetchLocationUsecaseImpl(this.locationRepository);
+  @override
+  Future<Responser<LocationEntity>> call() {
+    return locationRepository.getAddress();
+  }
+}

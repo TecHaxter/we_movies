@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:we_movies/core/helpers/helpers.dart';
 import 'package:we_movies/data/repository_impl/repository_impl.dart';
@@ -27,6 +29,13 @@ void _dataSourceRegister() {
 
   locator.registerLazySingleton<LanguagesDataSource>(
     () => LanguagesDataSourceImpl(),
+  );
+
+  locator.registerLazySingleton<LocationDataSource>(
+    () => LocationDataSourceImpl(
+      locator.get<GeocodingPlatform>(),
+      locator.get<GeolocatorPlatform>(),
+    ),
   );
 }
 
@@ -75,5 +84,11 @@ void _coreRegister() {
         baseUrl: 'https://api.themoviedb.org/3/',
       ),
     )..interceptors.add(apiKeyInterceptor),
+  );
+  locator.registerFactory<GeocodingPlatform>(
+    () => GeocodingPlatform.instance!,
+  );
+  locator.registerFactory<GeolocatorPlatform>(
+    () => GeolocatorPlatform.instance,
   );
 }
