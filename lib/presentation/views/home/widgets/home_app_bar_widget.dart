@@ -5,6 +5,7 @@ import 'package:we_movies/core/constants/constants.dart';
 import 'package:we_movies/core/helpers/extensions/string_extension.dart';
 import 'package:we_movies/domain/entity/entity.dart';
 import 'package:we_movies/presentation/bloc/bloc.dart';
+import 'package:we_movies/presentation/views/widgets/widgets.dart';
 
 class HomeAppBarWidget extends StatelessWidget {
   const HomeAppBarWidget({super.key});
@@ -75,11 +76,14 @@ class HomeAppBarWidget extends StatelessWidget {
           SizedBox(
             width: 40.w,
           ),
-          CircleAvatar(
-            radius: 24.r,
-            backgroundColor: AppColors.pureWhite,
-            backgroundImage: AssetImage(
-              AppAssets.images.userProfile,
+          InkWell(
+            onTap: () => underDevelopment(context),
+            child: CircleAvatar(
+              radius: 24.r,
+              backgroundColor: AppColors.pureWhite,
+              backgroundImage: AssetImage(
+                AppAssets.images.userProfile,
+              ),
             ),
           ),
         ],

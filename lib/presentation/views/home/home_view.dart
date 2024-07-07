@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_movies/core/constants/constants.dart';
 import 'package:we_movies/presentation/views/home/bloc/bloc.dart';
 import 'package:we_movies/presentation/views/home/widgets/widgets.dart';
+import 'package:we_movies/presentation/views/widgets/widgets.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -109,7 +110,12 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          onTap: (index) {},
+          onTap: (index) {
+            if (index == 0) {
+              return;
+            }
+            underDevelopment(context);
+          },
           elevation: 0.0,
           items: [
             BottomNavigationBarItem(

@@ -28,137 +28,140 @@ class NowPlayingMovieInfoCardWidget extends StatelessWidget {
         left: index == 0 ? 16.w : 0.0,
         right: isLast ? 16.w : 0.0,
       ),
-      child: ClipPath(
-        clipper: WeMoviesTopRatedCutOutBoxClipperWidget(
-          curveRadius: 24,
-          topLeftCutOutSize: Size(
-            160.w,
-            40.h,
+      child: InkWell(
+        onTap: () => underDevelopment(context),
+        child: ClipPath(
+          clipper: WeMoviesTopRatedCutOutBoxClipperWidget(
+            curveRadius: 24,
+            topLeftCutOutSize: Size(
+              160.w,
+              40.h,
+            ),
+            bottomRightCutOutSize: Size(
+              60.w,
+              60.h,
+            ),
           ),
-          bottomRightCutOutSize: Size(
-            60.w,
-            60.h,
-          ),
-        ),
-        clipBehavior: Clip.hardEdge,
-        child: movie == null
-            ? const _ShimmerSkeleton()
-            : Container(
-                width: 338.w,
-                height: double.maxFinite,
-                decoration: BoxDecoration(
-                  color: AppColors.cultured.withOpacity(0.7),
-                  image: (movie?.poster?.isNotEmpty ?? false)
-                      ? DecorationImage(
-                          image: CachedNetworkImageProvider(
-                            movie!.poster!,
-                          ),
-                          fit: BoxFit.cover,
-                        )
-                      : null,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 8.h,
-                        right: 8.h,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          BlurredChipWidget(
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.remove_red_eye_outlined,
-                                  color: AppColors.pureWhite,
-                                  size: 18.sp,
-                                ),
-                                SizedBox(
-                                  width: 4.w,
-                                ),
-                                Text(
-                                  (movie?.popularity ?? 0)
-                                      .smallKilloMillionBillion,
-                                  style: TextStyle(
-                                    color: AppColors.pureWhite,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
+          clipBehavior: Clip.hardEdge,
+          child: movie == null
+              ? const _ShimmerSkeleton()
+              : Container(
+                  width: 338.w,
+                  height: double.maxFinite,
+                  decoration: BoxDecoration(
+                    color: AppColors.cultured.withOpacity(0.7),
+                    image: (movie?.poster?.isNotEmpty ?? false)
+                        ? DecorationImage(
+                            image: CachedNetworkImageProvider(
+                              movie!.poster!,
                             ),
-                          ),
-                          SizedBox(
-                            width: 8.w,
-                          ),
-                          BlurredChipWidget(
-                            child: Icon(
-                              Icons.heart_broken,
-                              color: AppColors.pureWhite,
-                              size: 18.sp,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    ClipPath(
-                      clipper: WeMoviesTopRatedCutOutBoxClipperWidget(
-                        curveRadius: 20,
-                        topLeftCutOutSize: Size(
-                          200.w,
-                          32.h,
+                            fit: BoxFit.cover,
+                          )
+                        : null,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: 8.h,
+                          right: 8.h,
                         ),
-                      ),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(
-                          sigmaX: 10,
-                          sigmaY: 10,
-                        ),
-                        child: Container(
-                          width: double.infinity,
-                          color: AppColors.chineeseBlack.withOpacity(0.4),
-                          padding: EdgeInsets.only(
-                            right: 16.w,
-                            top: 8.w,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            BlurredChipWidget(
+                              child: Row(
                                 children: [
                                   Icon(
-                                    Icons.language_outlined,
+                                    Icons.remove_red_eye_outlined,
                                     color: AppColors.pureWhite,
-                                    size: 16.sp,
+                                    size: 18.sp,
                                   ),
                                   SizedBox(
                                     width: 4.w,
                                   ),
                                   Text(
-                                    movie?.language ?? 'Not Available',
+                                    (movie?.popularity ?? 0)
+                                        .smallKilloMillionBillion,
                                     style: TextStyle(
-                                      fontSize: 12.sp,
                                       color: AppColors.pureWhite,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 ],
                               ),
-                              MovieDetailsWidget(
-                                isBackgroundBlurred: true,
-                                movie: movie,
+                            ),
+                            SizedBox(
+                              width: 8.w,
+                            ),
+                            BlurredChipWidget(
+                              child: Icon(
+                                Icons.heart_broken,
+                                color: AppColors.pureWhite,
+                                size: 18.sp,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                    )
-                  ],
+                      ClipPath(
+                        clipper: WeMoviesTopRatedCutOutBoxClipperWidget(
+                          curveRadius: 20,
+                          topLeftCutOutSize: Size(
+                            200.w,
+                            32.h,
+                          ),
+                        ),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(
+                            sigmaX: 10,
+                            sigmaY: 10,
+                          ),
+                          child: Container(
+                            width: double.infinity,
+                            color: AppColors.chineeseBlack.withOpacity(0.4),
+                            padding: EdgeInsets.only(
+                              right: 16.w,
+                              top: 8.w,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Icon(
+                                      Icons.language_outlined,
+                                      color: AppColors.pureWhite,
+                                      size: 16.sp,
+                                    ),
+                                    SizedBox(
+                                      width: 4.w,
+                                    ),
+                                    Text(
+                                      movie?.language ?? 'Not Available',
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: AppColors.pureWhite,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                MovieDetailsWidget(
+                                  isBackgroundBlurred: true,
+                                  movie: movie,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
+        ),
       ),
     );
   }

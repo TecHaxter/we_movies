@@ -17,78 +17,81 @@ class TopRatedMovieInfoCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(
-        8.r,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.pureWhite,
-        borderRadius: BorderRadius.circular(32.r),
-      ),
-      child: movie == null
-          ? const _ShimmerSkeleton()
-          : Column(
-              children: [
-                Container(
-                  height: 192.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                      24.r,
+    return InkWell(
+      onTap: () => underDevelopment(context),
+      child: Container(
+        padding: EdgeInsets.all(
+          8.r,
+        ),
+        decoration: BoxDecoration(
+          color: AppColors.pureWhite,
+          borderRadius: BorderRadius.circular(32.r),
+        ),
+        child: movie == null
+            ? const _ShimmerSkeleton()
+            : Column(
+                children: [
+                  Container(
+                    height: 192.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                        24.r,
+                      ),
+                      color: AppColors.cultured.withOpacity(0.7),
+                      image: (movie?.poster?.isNotEmpty ?? true)
+                          ? DecorationImage(
+                              image: CachedNetworkImageProvider(
+                                movie!.poster!,
+                              ),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
                     ),
-                    color: AppColors.cultured.withOpacity(0.7),
-                    image: (movie?.poster?.isNotEmpty ?? true)
-                        ? DecorationImage(
-                            image: CachedNetworkImageProvider(
-                              movie!.poster!,
-                            ),
-                            fit: BoxFit.cover,
-                          )
-                        : null,
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        bottom: 24.h,
-                        left: 16.w,
-                        child: BlurredChipWidget(
-                          child: CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.remove_red_eye_outlined,
-                                  color: AppColors.pureWhite,
-                                  size: 20.sp,
-                                ),
-                                SizedBox(
-                                  height: 2.h,
-                                ),
-                                Text(
-                                  (movie?.popularity ?? 0)
-                                      .smallKilloMillionBillion,
-                                  style: TextStyle(
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          bottom: 24.h,
+                          left: 16.w,
+                          child: BlurredChipWidget(
+                            child: CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.remove_red_eye_outlined,
                                     color: AppColors.pureWhite,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500,
+                                    size: 20.sp,
                                   ),
-                                ),
-                              ],
+                                  SizedBox(
+                                    height: 2.h,
+                                  ),
+                                  Text(
+                                    (movie?.popularity ?? 0)
+                                        .smallKilloMillionBillion,
+                                    style: TextStyle(
+                                      color: AppColors.pureWhite,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 16.h,
-                ),
-                MovieDetailsWidget(
-                  movie: movie,
-                ),
-              ],
-            ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  MovieDetailsWidget(
+                    movie: movie,
+                  ),
+                ],
+              ),
+      ),
     );
   }
 }
