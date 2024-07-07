@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:we_movies/core/constants/constants.dart';
+import 'package:we_movies/presentation/views/home/bloc/bloc.dart';
 import 'package:we_movies/presentation/views/widgets/widgets.dart';
 
 class NowPlayingMoviesFetchCountBannerWidget extends StatelessWidget {
@@ -48,12 +50,34 @@ class NowPlayingMoviesFetchCountBannerWidget extends StatelessWidget {
               SizedBox(
                 height: 8.h,
               ),
-              Text(
-                "22 Movies are loaded in now playing",
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                ),
+              BlocBuilder<NowPlayingMoviesBloc, NowPlayingMoviesBlocState>(
+                builder: (context, state) {
+                  if (state is NowPlayingMoviesLoaded) {
+                    return Text(
+                      "${state.movies.length} Movies are loaded in now playing",
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    );
+                  } else if (state is NowPlayingMoviesLoading ||
+                      state is NowPlayingMoviesInitial) {
+                    return Text(
+                      "Fetching now playing movies..",
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    );
+                  }
+                  return Text(
+                    "Error occurred while fetching now playing movies",
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  );
+                },
               ),
             ],
           ),
