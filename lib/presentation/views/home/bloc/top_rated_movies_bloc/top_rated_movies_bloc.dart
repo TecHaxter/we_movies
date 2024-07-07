@@ -5,6 +5,7 @@ import 'package:we_movies/core/helpers/helpers.dart';
 import 'package:we_movies/domain/entity/entity.dart';
 import 'package:we_movies/domain/usecase/usecase.dart';
 import 'package:we_movies/presentation/views/home/bloc/bloc.dart';
+import 'package:we_movies/presentation/views/home/bloc/top_rated_movies_bloc/top_rated_movies_bloc_state.dart';
 
 class TopRatedMoviesBloc
     extends Bloc<TopRatedMoviesBlocEvent, TopRatedMoviesBlocState> {
@@ -53,6 +54,12 @@ class TopRatedMoviesBloc
             page,
           ));
         }
+      },
+      transformer: debounceTransformer(const Duration(milliseconds: 300)),
+    );
+    on<OnResetTopRatedMovies>(
+      (event, emit) {
+        emit(TopRatedMoviesInitial('Reseting state'));
       },
       transformer: debounceTransformer(const Duration(milliseconds: 300)),
     );

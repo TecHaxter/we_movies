@@ -57,6 +57,12 @@ class NowPlayingMoviesBloc
       },
       transformer: debounceTransformer(const Duration(milliseconds: 300)),
     );
+    on<OnResetNowPlayingMovies>(
+      (event, emit) {
+        emit(NowPlayingMoviesInitial('Reseting state'));
+      },
+      transformer: debounceTransformer(const Duration(milliseconds: 300)),
+    );
   }
 
   @override
