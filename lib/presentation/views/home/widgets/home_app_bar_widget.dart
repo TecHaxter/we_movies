@@ -78,6 +78,9 @@ class HomeAppBarWidget extends StatelessWidget {
           CircleAvatar(
             radius: 24.r,
             backgroundColor: AppColors.pureWhite,
+            backgroundImage: AssetImage(
+              AppAssets.images.userProfile,
+            ),
           ),
         ],
       ),

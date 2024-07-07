@@ -69,6 +69,9 @@ class _HomeViewState extends State<HomeView> {
                 controller: verticalScrollController,
                 child: Column(
                   children: [
+                    SizedBox(
+                      height: 8.h,
+                    ),
                     const HomeAppBarWidget(),
                     SizedBox(
                       height: 16.h,
@@ -108,16 +111,19 @@ class _HomeViewState extends State<HomeView> {
         bottomNavigationBar: BottomNavigationBar(
           onTap: (index) {},
           elevation: 0.0,
-          items: const [
+          items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: Image.asset(
+                AppAssets.logos.weWorkBlackLogo,
+                width: 28.w,
+              ),
               label: 'We Movies',
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(Icons.map),
               label: 'Explore',
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(Icons.calendar_month),
               label: 'Upcoming',
             ),

@@ -20,8 +20,8 @@ class AddressBloc extends Bloc<AddressBlocEvent, AddressBlocState> {
           );
           final res = await fetchLocationUsecase.call();
           final location = res.fold((l) => null, (r) => r);
-          if (res.isLeft()) {
-            throw res.asLeft();
+          if (res.isLeft() || location == null) {
+            throw res.asLeft() ?? "Could not fetch location.";
           }
           emit(
             AddressLoaded(

@@ -5,6 +5,7 @@ import 'package:we_movies/core/config/config.dart';
 import 'package:we_movies/core/constants/constants.dart';
 import 'package:we_movies/presentation/bloc/bloc.dart';
 import 'package:we_movies/presentation/views/home/bloc/bloc.dart';
+import 'package:we_movies/presentation/views/splash/splash_view.dart';
 import 'package:we_movies/presentation/views/views.dart';
 
 void main() async {
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           title: 'We Movies',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             useMaterial3: true,
             fontFamily: AppFontFamilies.poppins,
@@ -66,7 +68,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-          home: const HomeView(),
+          home: const SplashView(),
         ),
       ),
     );
